@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Made for kids to start making html
+
+-->
+
+<language id="simplemarkup" _name="Simple Markup" version="2.0" _section="Markup">
+	<metadata>
+		<property name="globs">*.sm</property>
+		<property name="line-comment-start">§</property>
+		<property name="block-comment-start">§...</property>
+		<property name="block-comment-end">...§</property>
+	</metadata>
+	
+	<styles>
+		<style id="comment"				_name="Comment"				map-to="def:comment"/>
+		<style id="tagname"				_name="Tag Name"			map-to="def:keyword"/>
+		<style id="string"				_name="String"				map-to="def:string"/>
+		<style id="modifier"			_name="Modifier"			map-to="def:preprocessor"/>
+		<style id="escaped-character"	_name="Escaped Character"	map-to="def:special-char"/>
+		<style id="class"				_name="CSS Class"			map-to="def:type"/>
+		<style id="textstyle"			_name="Modified text"		map-to="def:special-char"/>
+		<style id="tag"					_name="Tag"					map-to="def:preprocessor"/>
+		<style id="list-item"			_name="List item"			map-to="def:type"/>
+	</styles>
+	
+
+	<definitions>
+		
+		<!--main context-->
+		<context id="simplemarkup">
+			<include>
+			
+				<!--before normal comment because of the § in start -->
+				<context id="comment-multiline" style-ref="comment">
+					<start>§\.\.\.</start>
+					<end>\.\.\.§</end>
+				</context>
+				
+				<context id="comment" style-ref="comment">
+					<start>§</start>
+					<end>$</end>
+				</context>
+				
+				<context id="tag" end-at-line-end="true">
+					<start>^\s*(LÄNK|BILD|RUBRIK|STYCKE|LISTA|NUMMER|CITAT|TEXT)</start>
+					<end>$</end>
+					
+					<include>
+						<context id="tagname" sub-pattern="1" where="start" style-ref="tagname"/>
+					
+						<context id="string" style-ref="string">
+							<start>'</start>
+							<end>'</end>
+							<include>
+								<context id="escape" style-ref="escaped-character">
+									<match>\\.</match>
+								</context>
+							</include>
+						</context>
+					
+						<context id="class" style-ref="class">
+							<match>\.[a-zåäö]+</match>
+						</context>
+						
+						<context id="modifier" style-ref="modifier">	
+							<keyword>till BILDEN</keyword>
+							<keyword>till VIDEON</keyword>
+							<keyword>till</keyword>
+						</context>
+					</include>
+				</context>
+				
+				<context id="list" end-at-line-end="true">
+					<start>^\s*(\*|\d+\.?)</start>
+					<end>$</end>
+					
+					<include>
+						<context id="list-item" sub-pattern="1" where="start" style-ref="list-item"/>
+					</include>
+				</context>
+				
+				<!--<context id="classname">
+					<match>\%[tagname]\s(\.[a-zåäö]+)</match>
+					<include>
+						<context id="class" style-ref="class" sub-pattern="1"/>
+					</include>
+				</context>-->
+				
+				<context id="bold" style-ref="textstyle">
+					<start>\-\-</start>
+					<end>\-\-</end>
+				</context>
+				
+				<context id="italic" style-ref="textstyle">
+					<start>\-</start>
+					<end>\-</end>
+				</context>
+				
+			</include>
+		</context>
+		
+	</definitions>
+</language>
