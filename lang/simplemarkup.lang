@@ -65,8 +65,9 @@
 						</context>
 						
 						<context id="modifier" style-ref="modifier">	
-							<keyword>till BILDEN</keyword>
-							<keyword>till VIDEON</keyword>
+							<keyword>till BILD</keyword>
+							<keyword>till VIDEO</keyword>
+							<keyword>till SIDA</keyword>
 							<keyword>till</keyword>
 						</context>
 					</include>
@@ -80,13 +81,6 @@
 						<context id="list-item" sub-pattern="1" where="start" style-ref="list-item"/>
 					</include>
 				</context>
-				
-				<!--<context id="classname">
-					<match>\%[tagname]\s(\.[a-zåäö]+)</match>
-					<include>
-						<context id="class" style-ref="class" sub-pattern="1"/>
-					</include>
-				</context>-->
 				
 				<context id="bold" style-ref="textstyle">
 					<start>\-\-</start>
