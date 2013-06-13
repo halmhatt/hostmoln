@@ -5,9 +5,9 @@
 
 -->
 
-<language id="simplemarkup" _name="Simple Markup" version="2.0" _section="Markup">
+<language id="simplemarkup" _name="Swedish Simple Markup" version="2.0" _section="Markup">
 	<metadata>
-		<property name="globs">*.sm</property>
+		<property name="globs">*.ssm</property>
 		<property name="line-comment-start">§</property>
 		<property name="block-comment-start">§...</property>
 		<property name="block-comment-end">...§</property>
