@@ -17,7 +17,7 @@ class Tag():
 	
 		# If closing itself
 		if(self.content is None):
-			return '<{0} {1}/>'.format(self.tagname, self.attr())
+			return '<{0} {1}/>'.format(self.tagname, self.formatAttributes())
 	
 		return '<{0} {1}>{2}</{0}>'.format(self.tagname, self.formatAttributes(), self.content)
 			

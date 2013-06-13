@@ -1,5 +1,6 @@
 import re
 import sys
+import os
 import html.html as html
 from jinja2 import Template, FileSystemLoader
 
@@ -36,6 +37,21 @@ class Compiler():
 	
 	def compile(self, filename):
 		"""Compile file into html"""
+		
+		# Check that file exist
+		if os.path.exists(filename) is False:
+			print('File {0} does not exist'.format(filename))
+			exit()
+			
+		# Check that file is not a directory
+		if os.path.isfile(filename) is False:
+			print('File {0} is not a file'.format(filename))
+			exit()
+			
+		# Check if file is readable
+		if os.access(filename, os.R_OK) is False:
+			print('File {0} is not readable'.format(filename))
+			exit()
 		
 		# Open file and read lines
 		file = open(filename)
