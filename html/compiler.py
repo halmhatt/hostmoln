@@ -15,7 +15,10 @@ class Compiler():
 		'RUBRIK': 'h1',
 		'LISTA': 'ul',
 		'NUMMER': 'ol',
-		'CITAT': 'blockquote'
+		'CITAT': 'blockquote',
+		'KOD': 'code',
+		'RUTA': 'div',
+		'HTML': 'html-code'
 	}
 	
 	# Base html template
@@ -23,6 +26,7 @@ class Compiler():
 		<!doctype html>
 		<html>
 		<head>
+			<meta charset="utf8"/>
 			<title>{{ title }}</title>
 			{{ head }}
 			{{ style }}
@@ -86,11 +90,11 @@ class Compiler():
 	def isTag(self, line):
 		"""Checks if line is a tag start"""
 	
-		return re.match('^\s*(LÄNK|BILD|RUBRIK|STYCKE|LISTA|NUMMER|CITAT|TEXT)', line)
+		return re.match('^\s*(LÄNK|BILD|RUBRIK|STYCKE|LISTA|NUMMER|CITAT|TEXT|HTML|KOD|RUTA)', line)
 		
 	def getTagName(self, line):
 		"""Get HTML tag name from Swedish capitalized"""
-		tagname = re.match('^\s*(LÄNK|BILD|RUBRIK|STYCKE|LISTA|NUMMER|CITAT|TEXT)', line)
+		tagname = re.match('^\s*(LÄNK|BILD|RUBRIK|STYCKE|LISTA|NUMMER|CITAT|TEXT|HTML|KOD|RUTA)', line)
 	
 		return self.elementDefinition[tagname.group(1)]
 		
@@ -115,7 +119,7 @@ class Compiler():
 		attributes = {}
 		
 		# Try to find links
-		linkMatch = re.search('till\s(BILD)?\s?\'([a-zåäö\.\/\-\_]+)\'', tagLine)
+		linkMatch = re.search('till\s(BILD|SIDA)?\s?\'([a-zåäö\.\/\-\_]+)\'', tagLine)
 	
 		# If link is found
 		if linkMatch:
@@ -127,6 +131,9 @@ class Compiler():
 			# If image
 			if modifier == 'BILD':
 				href = 'bilder/'+href
+				
+			elif modifier == 'SIDA':
+				href = 'sidor/'+href
 			
 			# Remove href part from tagName
 			tagLine = tagLine[:linkMatch.start()] + tagLine[linkMatch.end():]
@@ -184,9 +191,24 @@ class Compiler():
 	
 		content = ''
 	
+		# If tag is image
 		if tagName in ['img']:
 			content = None
 	
+		# If list
+		elif tagName in['ul', 'ol']:
+			for line in contentLines:
+				lineMatch = re.match('^\s*(\-|\d+\.?)\s?', line)
+			
+				# Create list item
+				if lineMatch:
+					tag =  html.Tag('li', line[lineMatch.end():], attributes)
+					content += str(tag)	
+					
+		# If html
+		elif tagName == 'html-code':
+			return ''.join(contentLines)
+
 		# This tag can have content
 		else:
 			# Find tags in content

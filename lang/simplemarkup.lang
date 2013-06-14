@@ -23,6 +23,7 @@
 		<style id="textstyle"			_name="Modified text"		map-to="def:special-char"/>
 		<style id="tag"					_name="Tag"					map-to="def:preprocessor"/>
 		<style id="list-item"			_name="List item"			map-to="def:type"/>
+		<style id="include"				_name="Include"				map-to="def:keyword"/>
 	</styles>
 	
 
@@ -44,7 +45,7 @@
 				</context>
 				
 				<context id="tag" end-at-line-end="true">
-					<start>^\s*(LÄNK|BILD|RUBRIK|STYCKE|LISTA|NUMMER|CITAT|TEXT)</start>
+					<start>^\s*(LÄNK|BILD|RUBRIK|STYCKE|LISTA|NUMMER|CITAT|TEXT|HTML|KOD|RUTA)</start>
 					<end>$</end>
 					
 					<include>
@@ -66,7 +67,6 @@
 						
 						<context id="modifier" style-ref="modifier">	
 							<keyword>till BILD</keyword>
-							<keyword>till VIDEO</keyword>
 							<keyword>till SIDA</keyword>
 							<keyword>till</keyword>
 						</context>
@@ -74,11 +74,22 @@
 				</context>
 				
 				<context id="list" end-at-line-end="true">
-					<start>^\s*(\*|\d+\.?)</start>
+					<start>^\s*(\-|\d+\.?)</start>
 					<end>$</end>
 					
 					<include>
 						<context id="list-item" sub-pattern="1" where="start" style-ref="list-item"/>
+					</include>
+				</context>
+				
+				<context id="include">
+					<start>^(\+(?:STIL|JAVASCRIPT|TEMA))\s(\'[a-zåäö\-\_\/\.]+\')</start>
+					<end>$</end>
+					
+					<include>
+						<context id="include-keyword" sub-pattern="1" where="start" style-ref="include"/>
+					
+						<context id="include-string" sub-pattern="2" where="start" style-ref="string"/>
 					</include>
 				</context>
 				

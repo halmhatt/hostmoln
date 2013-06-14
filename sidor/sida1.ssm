@@ -4,6 +4,13 @@
 Hello multiline comment 
 ...§
 
+§ inkludera stilar
++STIL 'min-stil.css'
++STIL 'hello'
++TEMA 'hello'
++JAVASCRIPT 'hello'
+
+
 LÄNK till '/' .knapp
 	RUBRIK
 		Min rubrik
@@ -11,21 +18,27 @@ LÄNK till '/' .knapp
 LÄNK till BILDEN 'min-katt.jpg'
 	BILD 'min-katt.jpg'
 	
-TEXT .fet .grön
-	Ren text här med --fetstilt-- eller -snedställt-.
-	hejsan hejsan
-	hej hopp
+RUTA .minruta
+	TEXT .fet .grön
+		Ren text här med --fetstilt-- eller -snedställt-.
+		hejsan hejsan
+		hej hopp
 
 LISTA
-	* HEJ HEJ
-	* HEJ HOPP
-	* HEJ MANNEN
-	* hEJSAN HEJSAN
+	- HEJ HEJ
+	- HEJ HOPP
+	- HEJ MANNEN
+	- hEJSAN HEJSAN
 	
 NUMMER
 	1. Hej mannen
 	2. Vad görs annars då?
 	3 En till grej här
+
+HTML
+	<footer>
+		My footer here please
+	</footer>
 	
 CITAT
 	Här är mitt citat
