@@ -29,12 +29,18 @@ class Compiler():
 			<meta charset="utf8"/>
 			<title>{{ title }}</title>
 			{{ head }}
-			{{ style }}
+			
+			
+			{% for style in styles %}
+				<link rel="stylesheet" type="text/css" href="{{ style }}" />
+			{% endfor %}
 		</head>
 		<body>
 			{{ content }}
 	
-			{{ javascript }}
+			{% for script in javascripts %}
+				<script src="{{ script }}"></script>
+			{% endfor %}
 		</body>
 		</html>
 	''')
@@ -69,6 +75,12 @@ class Compiler():
 		# Remove empty lines
 		lines = self.removeEmptyLines(lines)
 		
+		# Search for includes
+		includes = self.addIncludes(lines)
+		
+		# Remove includes lines
+		lines = self.removeIncludes(lines)
+		
 		# Create root tags
 		tags = self.findTags(0, lines)
 		content = ''
@@ -82,7 +94,9 @@ class Compiler():
 		# Compile html
 		html = self.template.render({
 			'title': 'Min webbsida',
-			'content': content
+			'content': content,
+			'styles': includes['styles'],
+			'javascripts': includes['javascripts']
 		})
 		
 		return html
@@ -304,6 +318,53 @@ class Compiler():
 				noneEmptyLines.append(line)
 			
 		return noneEmptyLines
+		
+	def addIncludes(self, lines):
+		"""Searches for includes and adds them to document, cleans the line afterwards"""
+		
+		styles = []
+		javascripts = []
+		
+		for line in lines:
+			includeMatch = re.match('^\+(STIL|TEMA|JAVASCRIPT)\s\'([a-zåäö\-\_\.\/]+)\'', line)
+			
+			if includeMatch:
+				
+				# Find url
+				url = includeMatch.group(2)
+				
+				if includeMatch.group(1) == 'STIL':
+					if url[-4:] != '.css':
+						url += '.css'
+				
+					styles.append('stilar/'+url)
+					
+				elif includeMatch.group(1) == 'TEMA':
+					if url[-4:] != '.css':
+						url += '.css'
+						
+					styles.append('stilar/teman/'+url)
+					
+				else:
+					if url[-3:] != '.js':
+						url += '.js'
+				
+					javascripts.append('js/'+url)
+			
+		return {
+			'styles': styles,
+			'javascripts': javascripts
+		}		
+				
 	
+	def removeIncludes(self, lines):
+		"""Searches for includes and clear matching lines"""
+		
+		for index, line in enumerate(lines):
+			
+			if re.match('^\+(STIL|TEMA|JAVASCRIPT)', line):
+				lines[index] = ''
+					
+		return lines
 		
 	
