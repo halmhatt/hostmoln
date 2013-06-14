@@ -73,6 +73,21 @@
 					</include>
 				</context>
 				
+				<context id="inline-tags" style-ref="tagname">
+					<keyword>NY-RAD</keyword>
+					<keyword>NY RAD</keyword>
+				</context>
+				
+				<context id="bold" style-ref="textstyle">
+					<start>\-\-</start>
+					<end>\-\-</end>
+				</context>
+				
+				<context id="italic" style-ref="textstyle">
+					<start>\-</start>
+					<end>\-</end>
+				</context>
+				
 				<context id="list" end-at-line-end="true">
 					<start>^\s*(\-|\d+\.?)</start>
 					<end>$</end>
@@ -91,16 +106,6 @@
 					
 						<context id="include-string" sub-pattern="2" where="start" style-ref="string"/>
 					</include>
-				</context>
-				
-				<context id="bold" style-ref="textstyle">
-					<start>\-\-</start>
-					<end>\-\-</end>
-				</context>
-				
-				<context id="italic" style-ref="textstyle">
-					<start>\-</start>
-					<end>\-</end>
 				</context>
 				
 			</include>

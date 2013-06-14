@@ -190,11 +190,28 @@ class Compiler():
 	
 		# Italic
 		text = re.sub(r'\-([^\-]+)\-', r'<em>\1</em>', text)
+		
+		text = self.convertInlineTags(text)
 	
+		return text
+		
+	def convertInlineTags(self, text):
+		"""Expands inline tags like NY-RAD"""
+		
+		for match in re.finditer('(NY[\s\-]RAD)', text):
+			
+			# Replace newline
+			if re.match('(NY[\s\-]RAD)', match.group(1)):
+				text = re.sub('(NY[\s\-]RAD)', '<br>', text)
+			
 		return text
 		
 	def createTag(self, tagLine, contentLines):
 		"""Create a tag from information in tagLine and contentLines)"""
+
+		# If this line does not contain a tag, then use as text
+		if not self.isTag(tagLine):
+			return self.formatText(tagLine)
 
 		indentation = self.getIndentation(tagLine)
 	
@@ -256,8 +273,8 @@ class Compiler():
 		# Loop over lines
 		for lineNumber, line in enumerate(lines):
 		
-			# If tag is found with the right indentation
-			if self.hasIndentation(indentation, line) and self.isTag(line):
+			# If line has same indentation
+			if self.hasIndentation(indentation, line):
 				tagIndexes.append(lineNumber)
 		
 		# Loop over tag indexes and extract tags 	
