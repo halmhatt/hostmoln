@@ -62,7 +62,7 @@
 						</context>
 					
 						<context id="class" style-ref="class">
-							<match>\.[a-zåäö]+</match>
+							<match>\.[a-zåäö\-]+</match>
 						</context>
 						
 						<context id="modifier" style-ref="modifier">	

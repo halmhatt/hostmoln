@@ -1,6 +1,7 @@
 import re
 import sys
 import os
+import cgi
 import html.html as html
 from jinja2 import Template, FileSystemLoader
 
@@ -168,7 +169,7 @@ class Compiler():
 			attributes['src'] = src
 		
 		# Find classes
-		classMatch = re.findall('\.([a-zåäö]+)', tagLine)
+		classMatch = re.findall('\.([a-zåäö\-]+)', tagLine)
 	
 		if classMatch:
 	
@@ -222,6 +223,9 @@ class Compiler():
 		# If html
 		elif tagName == 'html-code':
 			return ''.join(contentLines)
+			
+		elif tagName == 'code':
+			content = '<pre>'+cgi.escape(''.join(contentLines))+'</pre>'
 
 		# This tag can have content
 		else:
