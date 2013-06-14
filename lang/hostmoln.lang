@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
- Made for kids to start making html
+	Höstmoln is a markup language written in Swedish, made for kids to start making HTML.
+	It is compiled into HTML
 
 -->
 
-<language id="simplemarkup" _name="Swedish Simple Markup" version="2.0" _section="Markup">
+<language id="hostmoln" _name="Höstmoln" version="2.0" _section="Markup">
 	<metadata>
-		<property name="globs">*.ssm</property>
+		<property name="globs">*.moln</property>
 		<property name="line-comment-start">§</property>
 		<property name="block-comment-start">§...</property>
 		<property name="block-comment-end">...§</property>
@@ -30,7 +31,7 @@
 	<definitions>
 		
 		<!--main context-->
-		<context id="simplemarkup">
+		<context id="hostmoln">
 			<include>
 			
 				<!--before normal comment because of the § in start -->
