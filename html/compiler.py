@@ -11,7 +11,7 @@ class Compiler():
 	elementDefinition = {
 		'LÄNK': 'a',
 		'BILD': 'img',
-		'TEXT': 'p',
+		'TEXT': 'span',
 		'STYCKE': 'p',
 		'RUBRIK': 'h1',
 		'LISTA': 'ul',
