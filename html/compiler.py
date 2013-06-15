@@ -11,7 +11,7 @@ class Compiler():
 	elementDefinition = {
 		'LÄNK': 'a',
 		'BILD': 'img',
-		'TEXT': 'p',
+		'TEXT': 'span',
 		'STYCKE': 'p',
 		'RUBRIK': 'h1',
 		'LISTA': 'ul',
@@ -120,8 +120,13 @@ class Compiler():
 	
 		if nonSpace is None:
 			return 0
-	
-		return nonSpace.start()
+			
+		else:
+			if re.match('^\t*\S', line):
+				return nonSpace.start()
+				
+			elif re.match('^\ *\S', line):
+				return nonSpace.start() / 4
 		
 	def hasIndentation(self, indentation, line):
 		"""Returns true if line has same indentation"""
@@ -149,6 +154,15 @@ class Compiler():
 				
 			elif modifier == 'SIDA':
 				href = 'sidor/'+href
+				
+				# If .html is missing
+				if href[-5:] != '.html':
+					href += '.html'
+					
+			# Find www. links
+			elif href[:4] == 'www':
+				href = 'http://'+href
+				
 			
 			# Remove href part from tagName
 			tagLine = tagLine[:linkMatch.start()] + tagLine[linkMatch.end():]
